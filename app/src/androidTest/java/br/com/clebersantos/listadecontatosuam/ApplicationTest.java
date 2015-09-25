@@ -1,4 +1,4 @@
-package br.com.clebersantos.listadecomprasuam;
+package br.com.clebersantos.listadecontatosuam;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

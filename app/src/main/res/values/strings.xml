@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">Lista De Compras UAM</string>
-
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Lista De Contatos UAM</string>
+    <string name="nome">Digite o nome</string>
+    <string name="telefone">Digite o telefone</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="editar">Editar</string>
+    <string name="cancelar">Cancelar</string>
     <string name="action_settings">Sobre</string>
 </resources>
