@@ -70,36 +70,47 @@ public class CadastrarActivity extends AppCompatActivity {
      */
     private void inicializar(){
 
-        //GERO OS COMPONENTES PARA USO
-        btnCancelar = (Button) findViewById(R.id.btnCancelar);
-        btnIncluir = (Button) findViewById(R.id.btnIncluir);
-        nome = (EditText) findViewById(R.id.txtNome);
-        telefone = (EditText) findViewById(R.id.txtTelefone);
+        try {
 
-        //IMPLEMENTO O LISTER DO BOTAO CANCELAR
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cancelar = new Intent(CadastrarActivity.this, PrincipalActivity.class);
-                startActivity(cancelar);
-            }
-        });
+            //GERO OS COMPONENTES PARA USO
+            btnCancelar = (Button) findViewById(R.id.btnCancelar);
+            btnIncluir = (Button) findViewById(R.id.btnIncluir);
+            nome = (EditText) findViewById(R.id.txtNome);
+            telefone = (EditText) findViewById(R.id.txtTelefone);
 
-        //INPLEMENTO O LISTENER DO BOTAO INCLUIR
-        btnIncluir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Contato novoContato = gerarNovoContato();
-                //CRIO CONEXAO COM O BANCO E CRIO A TABELA SE NAO EXISTIR
-                ContatoDAO dao = new ContatoDAO(CadastrarActivity.this);
-                dao.inserirContato(novoContato);
-                //FECHO CONEXAO COM O BANCO
-                dao.close();
-                //CHAMO A VIEW PRINCIPAL AO TERMINO DO CADASTRO
-                Intent intent = new Intent(CadastrarActivity.this, PrincipalActivity.class);
-                startActivity(intent);
-            }
-        });
+            //IMPLEMENTO O LISTER DO BOTAO CANCELAR
+            btnCancelar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent cancelar = new Intent(CadastrarActivity.this, PrincipalActivity.class);
+                    startActivity(cancelar);
+                }
+            });
+
+            //INPLEMENTO O LISTENER DO BOTAO INCLUIR
+            btnIncluir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Contato novoContato = gerarNovoContato();
+                        //CRIO CONEXAO COM O BANCO E CRIO A TABELA SE NAO EXISTIR
+                        ContatoDAO dao = new ContatoDAO(CadastrarActivity.this);
+                        dao.inserirContato(novoContato);
+                        //FECHO CONEXAO COM O BANCO
+                        dao.close();
+                        //CHAMO A VIEW PRINCIPAL AO TERMINO DO CADASTRO
+                        Intent intent = new Intent(CadastrarActivity.this, PrincipalActivity.class);
+                        startActivity(intent);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 }

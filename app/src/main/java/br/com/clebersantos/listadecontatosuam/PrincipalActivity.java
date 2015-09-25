@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.clebersantos.listadecontatosuam.DAO.ContatoDAO;
@@ -30,6 +31,8 @@ public class PrincipalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
+
+        inicializar();
 
         ArrayAdapter<Contato> adapter = new ArrayAdapter<Contato>(this, android.R.layout.simple_list_item_1, getContatos());
         listaContatos.setAdapter(adapter);
@@ -64,8 +67,13 @@ public class PrincipalActivity extends AppCompatActivity {
 
     //METODO USADO PARA TRAZER DADOS DO BANCO JA CADASTRADOS
     private List<Contato> getContatos(){
-        ContatoDAO dao = new ContatoDAO(this);
-        List<Contato> listaContatos = dao.getListaContatos();
+        List<Contato> listaContatos = new ArrayList<>();
+        try {
+            ContatoDAO dao = new ContatoDAO(this);
+            listaContatos = dao.getListaContatos();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return  listaContatos;
     }
 
