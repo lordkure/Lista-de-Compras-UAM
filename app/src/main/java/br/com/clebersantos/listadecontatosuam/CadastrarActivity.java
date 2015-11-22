@@ -24,6 +24,7 @@ public class CadastrarActivity extends AppCompatActivity {
     private Button btnIncluir;
     private EditText nome;
     private EditText telefone;
+    private Contato contato;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,15 @@ public class CadastrarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cadastrar);
 
         inicializar();
+
+        contato = (Contato) getIntent().getSerializableExtra("contatoSelecionado");
+        if(contato != null) {
+            btnIncluir.setText("Alterar");
+
+            nome.setText(contato.getNome());
+            telefone.setText(contato.getTelefone());
+
+        }
 
     }
 
@@ -92,15 +102,20 @@ public class CadastrarActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     try {
-                        Contato novoContato = gerarNovoContato();
                         //CRIO CONEXAO COM O BANCO E CRIO A TABELA SE NAO EXISTIR
                         ContatoDAO dao = new ContatoDAO(CadastrarActivity.this);
-                        dao.inserirContato(novoContato);
+
+                        if ( contato == null ) {
+                            Contato novoContato = gerarNovoContato();
+                            dao.inserirContato(novoContato);
+                            //CHAMO A VIEW PRINCIPAL AO TERMINO DO CADASTRO
+                            Intent intent = new Intent(CadastrarActivity.this, PrincipalActivity.class);
+                            startActivity(intent);
+                        } else {
+                            dao.atualizar(contato);
+                        }
                         //FECHO CONEXAO COM O BANCO
                         dao.close();
-                        //CHAMO A VIEW PRINCIPAL AO TERMINO DO CADASTRO
-                        Intent intent = new Intent(CadastrarActivity.this, PrincipalActivity.class);
-                        startActivity(intent);
                     }catch (Exception e){
                         e.printStackTrace();
                     }
